@@ -35,4 +35,16 @@ body {
 
 .wordguess-section {
     padding-top: 50px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    justify-items: center;
+    
+    .item {
+        display: inline-block;
+        width: 30px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 30px
+    }
 }
