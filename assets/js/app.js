@@ -4,6 +4,11 @@ var game = {
     // how many wins the player has
 
     remainingGuesses : 10,
+    
+    remainingWords : [],
+    //pool of words to select from
+
+    currentWord : "",
 
     dictionary : 
     [ 
@@ -25,10 +30,7 @@ var game = {
     ],
     // dictionary of possible matches. not to be modified
 
-    remainingWords : [],
-    //pool of words to select from
-
-    initialize : function(){
+    initializeGame : function(){
 
         for( var a = 0; a < this.dictionary.length(); a++ ) {
             this.remainingWords.push(this.dictionary[a]);
@@ -36,6 +38,12 @@ var game = {
 
         this.remainingGuesses = 10;
 
+        this.currentWord = this.remainingWords.pop();
+
         this.wins = 0;
     }
+}
+
+var board = {
+    wordguess : document.querySelector('.wordguess-section');
 }
