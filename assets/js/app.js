@@ -32,18 +32,42 @@ var game = {
 
     initializeGame : function(){
 
-        for( var a = 0; a < this.dictionary.length(); a++ ) {
-            this.remainingWords.push(this.dictionary[a]);
-        } // resets remaining words
+        for( var a = 0; a < game.dictionary.length; a++ ) {
+            
+            var b = Math.round( Math.random() * 10 ); // generate a random number 1-10
 
-        this.remainingGuesses = 10;
+            if( b > 5 ){
+                game.remainingWords.push(game.dictionary[a]);
+            } else {
+                game.remainingWords.unshift(game.dictionary[a])
+            }
 
-        this.currentWord = this.remainingWords.pop();
+        } // A simple shuffle for the sake of replayability
 
-        this.wins = 0;
+        game.remainingGuesses = 10;
+
+        game.currentWord = game.remainingWords.pop();
+
+        game.wins = 0;
     }
 }
 
 var board = {
-    wordguess : document.querySelector('.wordguess-section');
+    wordguess : document.querySelector('.wordguess-section'),
+    template : function( letter ) {
+        return '<div class="item">' + letter + '</div>'
+    },
+    renderWord : function( word ){ 
+        var wordguess = board.wordguess;
+        wordguess.innerHTML = "";// empty the board
+        var split = word.split('');
+
+        for( var j = 0; j < split.length; j++ ){
+            wordguess.innerHTML += board.template(split[j]);
+        }
+    }
 }
+
+
+game.initializeGame();
+board.renderWord( game.currentWord );
