@@ -1,0 +1,23 @@
+html {
+    box-sizing: border-box;
+  }
+  
+*, *:before, *:after {
+box-sizing: inherit;
+}
+
+body {
+    background-color: #000606;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar {
+    height: 5vh;
+    width: 100vw;
+    padding: 15px;
+
+    .logo {
+        height: 5vh;
+    }
+}
