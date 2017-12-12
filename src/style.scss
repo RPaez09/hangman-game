@@ -10,6 +10,8 @@ body {
     background-color: #000606;
     padding: 0;
     margin: 0;
+    color: #fbfbfb;
+    font-family: 'Helvetica' , sans-serif;
 }
 
 .navbar {
@@ -19,5 +21,14 @@ body {
 
     .logo {
         height: 5vh;
+    }
+}
+
+.heading-section {
+    
+    padding-top: 25px;
+
+    h2 {
+        text-align: center;
     }
 }
