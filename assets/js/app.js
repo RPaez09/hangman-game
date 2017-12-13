@@ -2,8 +2,6 @@ var game = {
 
     wins : 0,
     // how many wins the player has
-
-    remainingGuesses : 10,
     
     remainingWords : [],
     //pool of words to select from
@@ -64,8 +62,6 @@ var game = {
 
         } // A simple shuffle for the sake of replayability
 
-        game.remainingGuesses = 10;
-
         game.newWord();
 
         game.wins = 0;
@@ -99,7 +95,7 @@ var board = {
         key = key.toLowerCase();
         if( game.legalKeys.test( key ) && board.alreadyGuessed.indexOf( key ) < 0 ) {
             //check if letter is in the alphabet ( aka legal ) && not already guessed
-            if( game.remainingGuesses > 0 ){
+            if( scoreBoard.remainingGuesses.value > 0 ){
                 for( var d = 0; d < game.currentWord.length; d++ ){ //loop through elements in the current word
                     if( key === ( game.currentWord[d].letter ).toLowerCase() ){
                         game.currentWord[d].isSolved = true;
@@ -108,7 +104,7 @@ var board = {
                 }
 
                 board.alreadyGuessed.push( key );
-                game.remainingGuesses--;
+                scoreBoard.remainingGuesses.decrement();
             } else {
                 console.log("You've run out of guesses!");
             }
@@ -117,10 +113,28 @@ var board = {
 
 }
 
+var scoreBoard = {
+    remainingGuesses : 
+    {
+        value : 10,
+        element : document.getElementById( 'remainingGuesses' ),
+        render : function(){
+            scoreBoard.remainingGuesses.element.innerHTML = scoreBoard.remainingGuesses.value;
+        },
+        decrement : function(){
+            scoreBoard.remainingGuesses.value--;
+            scoreBoard.remainingGuesses.render();
+        },
+        reset : function(){
+            scoreBoard.remainingGuesses.value = 10;
+            scoreBoard.remainingGuesses.render();
+        }
+    }
+}
+
 //events
 document.onkeyup = function( e ){
     board.guessLetter( e.key )
-    
 };
 
 game.initializeGame();
