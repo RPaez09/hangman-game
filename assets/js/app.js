@@ -74,6 +74,9 @@ var game = {
 
 var board = {
     wordguess : document.querySelector('.wordguess-section'),
+
+    alreadyGuessed : [],
+
     template : function( currentLetter ) {
 
         if( currentLetter.isSolved ) {
@@ -81,8 +84,8 @@ var board = {
         } else {
             return '<div class="item">_</div>'
         }
-
     },
+
     renderWord : function( word ){ 
         var wordguess = board.wordguess;
         wordguess.innerHTML = "";// empty the board
@@ -91,21 +94,20 @@ var board = {
             wordguess.innerHTML += board.template(game.currentWord[j]);
         }
     },
-    alreadyGuessed : [],
+
     guessLetter : function( key ){
-        if( game.remainingGuesses > 0 ){
+        if( game.legalKeys.test( key ) && board.alreadyGuessed.indexOf( key ) < 0 ) {
             //check if letter is in the alphabet ( aka legal ) && not already guessed
-            if( game.legalKeys.test( key ) && board.alreadyGuessed.indexOf( key ) < 0 ) {
+            if( game.remainingGuesses > 0 ){
                 console.log( "New key :" + key );
                 board.alreadyGuessed.push( key );
                 game.remainingGuesses--;
+            } else {
+                console.log("You've run out of guesses!");
             }
-        } else {
-            console.log("You've run out of guesses!");
         }
-        
-
     }
+    
 }
 
 //events
