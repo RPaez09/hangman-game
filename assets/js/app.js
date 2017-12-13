@@ -73,7 +73,7 @@ var game = {
 }
 
 var board = {
-    wordguess : document.querySelector('.wordguess-section'),
+    wordGuess : document.querySelector('.wordguess-section'),
 
     alreadyGuessed : [],
 
@@ -87,19 +87,26 @@ var board = {
     },
 
     renderWord : function( word ){ 
-        var wordguess = board.wordguess;
-        wordguess.innerHTML = "";// empty the board
+        var wordGuess = board.wordGuess;
+        wordGuess.innerHTML = "";// empty the board
 
         for( var j = 0; j < game.currentWord.length; j++ ){
-            wordguess.innerHTML += board.template(game.currentWord[j]);
+            wordGuess.innerHTML += board.template(game.currentWord[j]);
         }
     },
 
     guessLetter : function( key ){
+        key = key.toLowerCase();
         if( game.legalKeys.test( key ) && board.alreadyGuessed.indexOf( key ) < 0 ) {
             //check if letter is in the alphabet ( aka legal ) && not already guessed
             if( game.remainingGuesses > 0 ){
-                console.log( "New key :" + key );
+                for( var d = 0; d < game.currentWord.length; d++ ){ //loop through elements in the current word
+                    if( key === ( game.currentWord[d].letter ).toLowerCase() ){
+                        game.currentWord[d].isSolved = true;
+                        board.renderWord( game.currentWord );
+                    } 
+                }
+
                 board.alreadyGuessed.push( key );
                 game.remainingGuesses--;
             } else {
@@ -107,7 +114,7 @@ var board = {
             }
         }
     }
-    
+
 }
 
 //events
