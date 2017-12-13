@@ -15,7 +15,7 @@ body {
 }
 
 .navbar {
-    height: 5vh;
+    height: 8vh;
     width: 100vw;
     padding: 15px;
 
@@ -27,6 +27,7 @@ body {
 .heading-section {
     
     padding-top: 25px;
+    margin-bottom: 50px;
 
     h2 {
         text-align: center;
@@ -34,7 +35,7 @@ body {
 }
 
 .wordguess-section {
-    padding-top: 50px;
+    margin-top: 30px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
