@@ -8,7 +8,9 @@ var game = {
     remainingWords : [],
     //pool of words to select from
 
-    currentWord : "",
+    currentWord : [],
+
+    legalKeys : new RegExp("\\b[a-z]{1}\\b"), // regular expression for a single alphabetical character
 
     dictionary : 
     [ 
@@ -30,6 +32,24 @@ var game = {
     ],
     // dictionary of possible matches. not to be modified
 
+    newWord : function(){
+
+        var candidate = game.remainingWords.pop();
+
+        board.alreadyGuessed = [];
+
+        for( var c = 0; c < candidate.length; c++ ){
+
+            if( candidate[c] === " " ){
+                game.currentWord.push( { "letter" : " " , "isSolved" : true } );
+            } else {
+                game.currentWord.push( { "letter" : candidate[c] , "isSolved" : false } );
+            }
+            
+        }
+
+    },
+
     initializeGame : function(){
 
         for( var a = 0; a < game.dictionary.length; a++ ) {
@@ -39,14 +59,14 @@ var game = {
             if( b > 5 ){
                 game.remainingWords.push(game.dictionary[a]);
             } else {
-                game.remainingWords.unshift(game.dictionary[a])
+                game.remainingWords.unshift(game.dictionary[a]);
             }
 
         } // A simple shuffle for the sake of replayability
 
         game.remainingGuesses = 10;
 
-        game.currentWord = game.remainingWords.pop();
+        game.newWord();
 
         game.wins = 0;
     }
@@ -54,20 +74,45 @@ var game = {
 
 var board = {
     wordguess : document.querySelector('.wordguess-section'),
-    template : function( letter ) {
-        return '<div class="item">' + letter + '</div>'
+    template : function( currentLetter ) {
+
+        if( currentLetter.isSolved ) {
+            return '<div class="item">' + currentLetter.letter + '</div>'
+        } else {
+            return '<div class="item">_</div>'
+        }
+
     },
     renderWord : function( word ){ 
         var wordguess = board.wordguess;
         wordguess.innerHTML = "";// empty the board
-        var split = word.split('');
 
-        for( var j = 0; j < split.length; j++ ){
-            wordguess.innerHTML += board.template(split[j]);
+        for( var j = 0; j < game.currentWord.length; j++ ){
+            wordguess.innerHTML += board.template(game.currentWord[j]);
         }
+    },
+    alreadyGuessed : [],
+    guessLetter : function( key ){
+        if( game.remainingGuesses > 0 ){
+            //check if letter is in the alphabet ( aka legal ) && not already guessed
+            if( game.legalKeys.test( key ) && board.alreadyGuessed.indexOf( key ) < 0 ) {
+                console.log( "New key :" + key );
+                board.alreadyGuessed.push( key );
+                game.remainingGuesses--;
+            }
+        } else {
+            console.log("You've run out of guesses!");
+        }
+        
+
     }
 }
 
+//events
+document.onkeyup = function( e ){
+    board.guessLetter( e.key )
+    
+};
 
 game.initializeGame();
 board.renderWord( game.currentWord );
