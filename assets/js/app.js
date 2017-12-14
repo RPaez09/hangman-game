@@ -87,13 +87,17 @@ var board = {
     },
 
     guessLetter : function( key ){
-        key = key.toLowerCase();
-        if( game.legalKeys.test( key ) && board.alreadyGuessed.indexOf( key ) < 0 ) {
-            //check if letter is in the alphabet ( aka legal ) && not already guessed
-            if( scoreBoard.remainingGuesses.value > 0 ){
+        key = key.toLowerCase(); // case insensitivity
+        var miss = true; // if a key is found this will switch to true and decrement the number of guesses remaining
+
+        if( game.legalKeys.test( key ) && board.alreadyGuessed.indexOf( key ) < 0 ) { //check if letter is in the alphabet ( aka legal ) && not already guessed
+            
+            if( scoreBoard.remainingGuesses.value > 0 ){ // no more guessing after you run out of attemps.. game over
+
                 for( var d = 0; d < game.currentWord.length; d++ ){ //loop through elements in the current word
                     if( key === ( game.currentWord[d].letter ).toLowerCase() ){
                         game.currentWord[d].isSolved = true;
+                        miss = false;
                         board.renderWord( game.currentWord );
 
                         if( board.checkWin() ){
@@ -106,7 +110,11 @@ var board = {
                 }
 
                 board.alreadyGuessed.push( key );
-                scoreBoard.remainingGuesses.decrement();
+                if( miss ) {
+                    scoreBoard.remainingGuesses.decrement();
+                    miss = true;
+                }
+                
             } else {
                 console.log("You've run out of guesses!");
             }
