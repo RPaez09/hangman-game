@@ -110,16 +110,16 @@ var board = {
                         miss = false;
                         board.renderWord( game.currentWord );
 
-                        if( board.checkWin() ){ // checking if you won
-                            scoreBoard.wins.increment();
-                            game.newWord();
-                            board.renderWord( game.currentWord );
-                        }
-
                     } 
                 }
-
-                scoreBoard.usedLetters.append( key );
+                
+                if( board.checkWin() ){ // checking if you won
+                    scoreBoard.wins.increment();
+                    game.newWord();
+                    board.renderWord( game.currentWord );
+                } else {
+                    scoreBoard.usedLetters.append( key );
+                }
                 if( miss ) {
                     scoreBoard.remainingGuesses.decrement();
                     miss = true;
