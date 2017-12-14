@@ -31,7 +31,10 @@ var game = {
 
         var candidate = game.remainingWords.pop();
 
-        board.alreadyGuessed = [];
+        game.currentWord = []; // flush out the board
+
+        scoreBoard.remainingGuesses.reset();
+        scoreBoard.usedLetters.reset();
 
         for( var c = 0; c < candidate.length; c++ ){
 
@@ -46,6 +49,10 @@ var game = {
     },
 
     initializeGame : function(){
+        
+        scoreBoard.wins.reset();
+        scoreBoard.remainingGuesses.reset();
+        scoreBoard.usedLetters.reset();
 
         for( var a = 0; a < game.dictionary.length; a++ ) {
             
@@ -65,8 +72,6 @@ var game = {
 
 var board = {
     wordGuess : document.querySelector('.wordguess-section'),
-
-    alreadyGuessed : [],
 
     template : function( currentLetter ) {
 
@@ -90,7 +95,7 @@ var board = {
         key = key.toLowerCase(); // case insensitivity
         var miss = true; // if a key is found this will switch to true and decrement the number of guesses remaining
 
-        if( game.legalKeys.test( key ) && board.alreadyGuessed.indexOf( key ) < 0 ) { //check if letter is in the alphabet ( aka legal ) && not already guessed
+        if( game.legalKeys.test( key ) && scoreBoard.usedLetters.check( key ) ) { //check if letter is in the alphabet ( aka legal ) && not already guessed
             
             if( scoreBoard.remainingGuesses.value > 0 ){ // no more guessing after you run out of attemps.. game over
 
@@ -100,16 +105,15 @@ var board = {
                         miss = false;
                         board.renderWord( game.currentWord );
 
-                        if( board.checkWin() ){
+                        if( board.checkWin() ){ // checking if you won
                             scoreBoard.wins.increment();
-                            scoreBoard.remainingGuesses.reset();
                             game.newWord();
                         }
 
                     } 
                 }
 
-                board.alreadyGuessed.push( key );
+                scoreBoard.usedLetters.append( key );
                 if( miss ) {
                     scoreBoard.remainingGuesses.decrement();
                     miss = true;
@@ -169,7 +173,7 @@ var scoreBoard = {
         }
     },
 
-    usedLetters = {
+    usedLetters : {
         array : [],
         element : document.getElementById( 'guessedLetters' ),
         render : function(){
@@ -177,6 +181,7 @@ var scoreBoard = {
         },
         append : function( newLetter ){
             scoreBoard.usedLetters.array.push( newLetter );
+            scoreBoard.usedLetters.render();
         },
         check : function( culprit ){
             if( scoreBoard.usedLetters.array.indexOf( culprit ) < 0 ){
@@ -187,6 +192,7 @@ var scoreBoard = {
         },
         reset : function(){
             scoreBoard.usedLetters.array = [];
+            scoreBoard.usedLetters.render();
         }
     }
 }
