@@ -108,15 +108,13 @@ var board = {
 
     checkWin : function(){
 
-        var isInvalid = true;
-
         for( var e = 0; e < game.currentWord.length; e++ ){
             if( game.currentWord[e].isSolved === false ){
-                hit = isInvalid;
+                return false;
             }
         }
 
-        return isInvalid;
+        return true;
 
     }
 
