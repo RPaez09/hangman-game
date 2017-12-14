@@ -95,6 +95,13 @@ var board = {
                     if( key === ( game.currentWord[d].letter ).toLowerCase() ){
                         game.currentWord[d].isSolved = true;
                         board.renderWord( game.currentWord );
+
+                        if( board.checkWin() ){
+                            scoreBoard.wins.increment();
+                            scoreBoard.remainingGuesses.reset();
+                            game.newWord();
+                        }
+
                     } 
                 }
 
