@@ -71,7 +71,9 @@ var game = {
 }
 
 var board = {
-    wordGuess : document.querySelector('.wordguess-section'),
+    wordGuess : document.querySelector('.wordguess-section'), //depracating this
+
+    element : document.querySelector( '.wordguess-section' ),
 
     template : function( currentLetter ) {
 
@@ -82,13 +84,17 @@ var board = {
         }
     },
 
-    renderWord : function( word ){ 
+    renderWord : function( word ){ //depracating this
         var wordGuess = board.wordGuess;
         wordGuess.innerHTML = "";// empty the board
 
         for( var j = 0; j < game.currentWord.length; j++ ){
             wordGuess.innerHTML += board.template(game.currentWord[j]);
         }
+    },
+
+    render : function(){
+
     },
 
     guessLetter : function( key ){
