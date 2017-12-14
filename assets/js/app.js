@@ -89,7 +89,7 @@ var board = {
 
     renderWord : function( word ){ //depracating this
         var element = board.element;
-        element.innerHTML = "";// empty the board
+        board.clear();
 
         for( var j = 0; j < game.currentWord.length; j++ ){
             element.innerHTML += board.template(game.currentWord[j]);
@@ -113,6 +113,7 @@ var board = {
                         if( board.checkWin() ){ // checking if you won
                             scoreBoard.wins.increment();
                             game.newWord();
+                            board.renderWord( game.currentWord );
                         }
 
                     } 
