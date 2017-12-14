@@ -1,7 +1,4 @@
 var game = {
-
-    wins : 0,
-    // how many wins the player has
     
     remainingWords : [],
     //pool of words to select from
@@ -128,6 +125,22 @@ var scoreBoard = {
         reset : function(){
             scoreBoard.remainingGuesses.value = 10;
             scoreBoard.remainingGuesses.render();
+        }
+    },
+
+    wins : {
+        value : 0,
+        element : document.getElementById( 'score' ),
+        render : function(){
+            scoreBoard.wins.element.innerHTML = scoreBoard.wins.value;
+        },
+        increment : function(){
+            scoreBoard.wins.value++;
+            scoreBoard.wins.render();
+        },
+        reset : function(){
+            scoreBoard.wins.value = 0;
+            scoreBoard.wins.render();
         }
     }
 }
