@@ -75,6 +75,10 @@ var board = {
 
     element : document.querySelector( '.wordguess-section' ),
 
+    clear : function(){
+        board.element.innerHTML = "";
+    },
+
     template : function( currentLetter ) {
 
         if( currentLetter.isSolved ) {
@@ -91,10 +95,6 @@ var board = {
         for( var j = 0; j < game.currentWord.length; j++ ){
             wordGuess.innerHTML += board.template(game.currentWord[j]);
         }
-    },
-
-    render : function(){
-
     },
 
     guessLetter : function( key ){
