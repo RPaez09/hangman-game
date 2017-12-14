@@ -60,8 +60,6 @@ var game = {
         } // A simple shuffle for the sake of replayability
 
         game.newWord();
-
-        game.wins = 0;
     }
 }
 
@@ -106,6 +104,20 @@ var board = {
                 console.log("You've run out of guesses!");
             }
         }
+    },
+
+    checkWin : function(){
+
+        var isInvalid = true;
+
+        for( var e = 0; e < game.currentWord.length; e++ ){
+            if( game.currentWord[e].isSolved === false ){
+                hit = isInvalid;
+            }
+        }
+
+        return isInvalid;
+
     }
 
 }
