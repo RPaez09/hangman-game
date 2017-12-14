@@ -167,6 +167,27 @@ var scoreBoard = {
             scoreBoard.wins.value = 0;
             scoreBoard.wins.render();
         }
+    },
+
+    usedLetters = {
+        array : [],
+        element : document.getElementById( 'guessedLetters' ),
+        render : function(){
+            scoreBoard.usedLetters.element.innerHTML = scoreBoard.usedLetters.array;
+        },
+        append : function( newLetter ){
+            scoreBoard.usedLetters.array.push( newLetter );
+        },
+        check : function( culprit ){
+            if( scoreBoard.usedLetters.array.indexOf( culprit ) < 0 ){
+                return true;
+            } else {
+                return false;
+            }
+        },
+        reset : function(){
+            scoreBoard.usedLetters.array = [];
+        }
     }
 }
 
